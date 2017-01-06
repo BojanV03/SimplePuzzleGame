@@ -48,9 +48,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbGrid)).BeginInit();
             this.gbDebug.SuspendLayout();
             this.SuspendLayout();
-            //
+            // 
             // btnNewGame
-            //
+            // 
             this.btnNewGame.BackColor = System.Drawing.Color.DarkGray;
             this.btnNewGame.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnNewGame.Location = new System.Drawing.Point(13, 13);
@@ -61,9 +61,9 @@
             this.btnNewGame.UseVisualStyleBackColor = false;
             this.btnNewGame.Click += new System.EventHandler(this.btnNewGame_Click);
             this.btnNewGame.MouseMove += new System.Windows.Forms.MouseEventHandler(this.btnNewGame_MouseMove);
-            //
+            // 
             // btnReset
-            //
+            // 
             this.btnReset.BackColor = System.Drawing.Color.DarkGray;
             this.btnReset.Enabled = false;
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -75,10 +75,10 @@
             this.btnReset.UseVisualStyleBackColor = false;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             this.btnReset.MouseMove += new System.Windows.Forms.MouseEventHandler(this.btnReset_MouseMove);
-            //
+            // 
             // pbGrid
-            //
-            this.pbGrid.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            // 
+            this.pbGrid.BackColor = System.Drawing.SystemColors.GrayText;
             this.pbGrid.Location = new System.Drawing.Point(13, 42);
             this.pbGrid.Name = "pbGrid";
             this.pbGrid.Size = new System.Drawing.Size(156, 62);
@@ -86,14 +86,14 @@
             this.pbGrid.TabIndex = 2;
             this.pbGrid.TabStop = false;
             this.pbGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbGrid_MouseMove);
-            //
+            // 
             // gameTimer
-            //
+            // 
             this.gameTimer.Interval = 20;
             this.gameTimer.Tick += new System.EventHandler(this.graphicsTimer_Tick);
-            //
+            // 
             // lblTimer
-            //
+            // 
             this.lblTimer.AutoSize = true;
             this.lblTimer.Location = new System.Drawing.Point(13, 42);
             this.lblTimer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -102,9 +102,9 @@
             this.lblTimer.TabIndex = 3;
             this.lblTimer.Text = "0";
             this.lblTimer.Visible = false;
-            //
+            // 
             // btnDemo
-            //
+            // 
             this.btnDemo.BackColor = System.Drawing.Color.DarkGray;
             this.btnDemo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDemo.Location = new System.Drawing.Point(175, 13);
@@ -114,9 +114,9 @@
             this.btnDemo.Text = "Demo";
             this.btnDemo.UseVisualStyleBackColor = false;
             this.btnDemo.Click += new System.EventHandler(this.btnDemo_Click);
-            //
+            // 
             // btnClose
-            //
+            // 
             this.btnClose.BackColor = System.Drawing.Color.DarkGray;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClose.Location = new System.Drawing.Point(832, 13);
@@ -126,9 +126,9 @@
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            //
+            // 
             // gbDebug
-            //
+            // 
             this.gbDebug.Controls.Add(this.lblDragging);
             this.gbDebug.Controls.Add(this.lblWorldLocation);
             this.gbDebug.Controls.Add(this.lblRelativeLocation);
@@ -143,9 +143,9 @@
             this.gbDebug.TabStop = false;
             this.gbDebug.Text = "debugging";
             this.gbDebug.Visible = false;
-            //
+            // 
             // lblDragging
-            //
+            // 
             this.lblDragging.AutoSize = true;
             this.lblDragging.Location = new System.Drawing.Point(6, 101);
             this.lblDragging.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -153,9 +153,9 @@
             this.lblDragging.Size = new System.Drawing.Size(35, 13);
             this.lblDragging.TabIndex = 6;
             this.lblDragging.Text = "label1";
-            //
+            // 
             // lblWorldLocation
-            //
+            // 
             this.lblWorldLocation.AutoSize = true;
             this.lblWorldLocation.Location = new System.Drawing.Point(7, 74);
             this.lblWorldLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -163,9 +163,9 @@
             this.lblWorldLocation.Size = new System.Drawing.Size(86, 13);
             this.lblWorldLocation.TabIndex = 5;
             this.lblWorldLocation.Text = "lblWorldLocation";
-            //
+            // 
             // lblRelativeLocation
-            //
+            // 
             this.lblRelativeLocation.AutoSize = true;
             this.lblRelativeLocation.Location = new System.Drawing.Point(6, 88);
             this.lblRelativeLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -173,45 +173,45 @@
             this.lblRelativeLocation.Size = new System.Drawing.Size(97, 13);
             this.lblRelativeLocation.TabIndex = 4;
             this.lblRelativeLocation.Text = "lblRelativeLocation";
-            //
+            // 
             // lblMouseLocation
-            //
+            // 
             this.lblMouseLocation.AutoSize = true;
             this.lblMouseLocation.Location = new System.Drawing.Point(6, 59);
             this.lblMouseLocation.Name = "lblMouseLocation";
             this.lblMouseLocation.Size = new System.Drawing.Size(57, 13);
             this.lblMouseLocation.TabIndex = 3;
             this.lblMouseLocation.Text = "MouseLoc";
-            //
+            // 
             // lblCellSize
-            //
+            // 
             this.lblCellSize.AutoSize = true;
             this.lblCellSize.Location = new System.Drawing.Point(6, 46);
             this.lblCellSize.Name = "lblCellSize";
             this.lblCellSize.Size = new System.Drawing.Size(35, 13);
             this.lblCellSize.TabIndex = 2;
             this.lblCellSize.Text = "label3";
-            //
+            // 
             // lblGridLocation
-            //
+            // 
             this.lblGridLocation.AutoSize = true;
             this.lblGridLocation.Location = new System.Drawing.Point(6, 33);
             this.lblGridLocation.Name = "lblGridLocation";
             this.lblGridLocation.Size = new System.Drawing.Size(35, 13);
             this.lblGridLocation.TabIndex = 1;
             this.lblGridLocation.Text = "label2";
-            //
+            // 
             // lblGridSize
-            //
+            // 
             this.lblGridSize.AutoSize = true;
             this.lblGridSize.Location = new System.Drawing.Point(7, 20);
             this.lblGridSize.Name = "lblGridSize";
             this.lblGridSize.Size = new System.Drawing.Size(35, 13);
             this.lblGridSize.TabIndex = 0;
             this.lblGridSize.Text = "label1";
-            //
+            // 
             // btnToggleFullScreen
-            //
+            // 
             this.btnToggleFullScreen.BackColor = System.Drawing.Color.DarkGray;
             this.btnToggleFullScreen.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnToggleFullScreen.Location = new System.Drawing.Point(723, 13);
@@ -221,12 +221,12 @@
             this.btnToggleFullScreen.Text = "FullScreen";
             this.btnToggleFullScreen.UseVisualStyleBackColor = false;
             this.btnToggleFullScreen.Click += new System.EventHandler(this.btnToggleFullScreen_Click);
-            //
+            // 
             // PuzzleForm
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkGray;
+            this.BackColor = System.Drawing.SystemColors.GrayText;
             this.ClientSize = new System.Drawing.Size(944, 561);
             this.Controls.Add(this.btnToggleFullScreen);
             this.Controls.Add(this.gbDebug);

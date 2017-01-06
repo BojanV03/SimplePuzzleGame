@@ -21,16 +21,18 @@ namespace SimplePuzzleGame
         public int PieceHeight, PieceWidth;
 
         private static Bitmap staticTexture;
+        private static Bitmap draggingTexture;
 
         static PuzzlePiece()
         {
             try
             {
-                staticTexture = new Bitmap("texture.png");
+                staticTexture = new Bitmap("texture0.png");
+                draggingTexture = new Bitmap("texture1.png");
             }
             catch (Exception)
             {
-                MessageBox.Show("I was unable to load the texture file, please make sure it is in the same folder as the exe file and named texture.png. \nUntil then, enjoy the game without it");
+                MessageBox.Show("I was unable to load the texture files, please make sure they is in the same folder as the exe file and named \"texture0.png\" and \"texture1.png\". \nUntil then, enjoy the game without it");
             }
         }
 
@@ -194,6 +196,19 @@ namespace SimplePuzzleGame
                 setWorldLocation(new Point((int)(WorldLocation.X / resizeAmmountWidth), (int)(WorldLocation.Y / resizeAmmountHeight)));
             else
                 setWorldLocation(new Point(gridTopLeft.X + SetPosition.X * newSize, gridTopLeft.Y + SetPosition.Y * newSize));
+        }
+
+        public void setTexture(bool isDragging)
+        {
+            foreach (PictureBox pb in pbList)
+            {
+                if (isDragging)
+                {
+                    pb.Image = draggingTexture;
+                }
+                else
+                    pb.Image = staticTexture;
+            }
         }
     }
 }

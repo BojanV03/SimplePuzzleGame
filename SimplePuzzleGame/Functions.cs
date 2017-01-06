@@ -214,7 +214,7 @@ namespace SimplePuzzleGame
                     if(arr[i, j] == '0')
                     {
                         DFS(arr, pieceMatrix, i, j);    // DFS u pieceMatrix upise oblik puzzleDela i u arr matrici postavi taj deo na jedinice
-                        Color C = Color.FromArgb(R.Next() % 256, R.Next() % 256, R.Next() % 256);
+                        Color C = Color.FromArgb(R.Next() % 128 + 128, R.Next() % 128 + 128, R.Next() % 128 + 128);
                         list.AddLast(new PuzzlePiece(pieceMatrix, new Point(0, 0), pieceSize, C));
                         pieceMatrix = new bool[(arr.GetLength(0) - 1) / 2, (arr.GetLength(1) - 1) / 2];
                     }

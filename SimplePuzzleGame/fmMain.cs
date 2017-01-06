@@ -293,6 +293,7 @@ namespace SimplePuzzleGame
                     // Izracunavamo poziciju kliknutog pictureBoxa u odnosu na mis
                     RelativeLocation = new Point(e.X + _sender.Location.X - DraggingPiece.WorldLocation.X, e.Y + _sender.Location.Y - DraggingPiece.WorldLocation.Y);
                     DraggingPiece.zOrderUp();
+                    DraggingPiece.setTexture(true);
 
                     if (DraggingPiece.IsSet)    // Ako je bio postavljen u grid, onda moramo da modifikujemo GridState matricu
                     {
@@ -306,6 +307,7 @@ namespace SimplePuzzleGame
 
                     if (canBePlaced(DraggingPiece)) // Da li uopste mozemo da postavimo
                     {
+                        DraggingPiece.setTexture(false);
                         if (matrixCheck(DraggingPiece, locationToGridPoint(DraggingPiece.WorldLocation)) == true) // Za svaki slucaj proveravamo da li je negde u matrici vec zauzeta ta lokacija
                         {
                             DraggingPiece.IsSet = true; //Ako nije, setujemo taj PuzzlePiece
