@@ -45,7 +45,7 @@ namespace SimplePuzzleGame
             {
                 int tmpWidth = Convert.ToInt32(tbWidth.Text);
                 int tmpHeight = Convert.ToInt32(tbHeight.Text);
-                if (tmpWidth < 2 || tmpHeight < 2 || tmpWidth > 20 || tmpHeight > 20)
+                if (tmpWidth < 5 || tmpHeight < 5 || tmpWidth > 20 || tmpHeight > 20)
                     throw new Exception();
                 gridWidth = tmpWidth > tmpHeight? tmpWidth : tmpHeight;
                 gridHeight = tmpWidth < tmpHeight? tmpWidth : tmpHeight;
@@ -54,7 +54,7 @@ namespace SimplePuzzleGame
             }
             catch(Exception)
             {
-                MessageBox.Show("Sirina i Visina moraju biti celi brojevi veci od 1 i ne preporucuje se > 20");
+                MessageBox.Show("Width and Height must be integers >= 5 and <= 20");
             }
         }
 

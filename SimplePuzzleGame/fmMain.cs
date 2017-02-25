@@ -49,19 +49,19 @@ namespace SimplePuzzleGame
 
                 pbGrid.Refresh();
                 drawGrid(pbGrid);
-                btnReset.Enabled = true;
                 resetTimer();
                 bringButtonsToFront();
                 PuzzleForm_Resize(sender, e);
                 repositionPieces();
+                btnDemo.Enabled = true;
             }
         }
 
         // Resetuje igru tj ponisti GridState matricu, resetuje tajmer, razbaca delove i stavi GameCompleted na false i GameStarted na true
         private void btnReset_Click(object sender, EventArgs e)
         {
+            btnReset.Enabled = false;
             repositionPieces();
-
             for (int i = 0; i < GridStateMatrix.GetLength(0); i++)
                 for (int j = 0; j < GridStateMatrix.GetLength(1); j++)
                     GridStateMatrix[i, j] = false;
@@ -186,7 +186,15 @@ namespace SimplePuzzleGame
         private void repositionPieces()
         {
             Random R = new Random();
+
             foreach (PuzzlePiece P in PuzzlePieceList)
+            {
+                foreach(PictureBox pb in P.pbList)
+                {
+                    pb.Visible = false;
+                }
+            }
+                foreach (PuzzlePiece P in PuzzlePieceList)
             {
                 // Moguce poboljsanje efikasnosti: podeliti prozor na 8 segmenata, 3 levo od table, 3 desno od table, 1 ispod, 1 iznad
                 // i onda u njih jedan po jedan ubacivati delove na nasumicne pozicije a onda proveravati kolizije samo sa vec postavljenim
@@ -215,11 +223,34 @@ namespace SimplePuzzleGame
                     {
                         P.IsSet = false;
                         positionIncorrect = false;
+                        foreach (PictureBox pb in P.pbList)
+                        {
+                            pb.Visible = true;
+                        }
                     }
                 }
             }
         }
 
+        private bool overlapsButtons(PictureBox pb)
+        {
+            if (overlapSingleButton(pb, btnClose) || overlapSingleButton(pb, btnDemo) ||
+                overlapSingleButton(pb, btnNewGame) || overlapSingleButton(pb, btnReset) ||
+                overlapSingleButton(pb, btnToggleFullScreen))
+                return true;
+
+            return false;
+        }     
+        private bool overlapSingleButton(PictureBox pb, Button b)
+        {
+            Point btnTopLeft = new Point(b.Location.X, b.Location.Y);
+            Point btnBottomRight = new Point(b.Location.X + b.Width, b.Location.Y + b.Height);
+            Point pbTopLeft = new Point(pb.Location.X, pb.Location.Y);
+            Point pbBottomRight = new Point(pb.Location.X + pb.Width, pb.Location.Y + pb.Height);
+            if (Functions.rectangleOverlapCheck(btnTopLeft, btnBottomRight, pbTopLeft, pbBottomRight))
+                return true;
+            return false;
+        }
         private bool canBePlaced(PuzzlePiece p)
         {   // Provera da li se nalazi izvan ekrana
             if (p.WorldLocation.X < 0 || p.WorldLocation.Y < 0 || p.WorldLocation.X + p.PieceWidth * CellSize > this.Width - CellSize || p.WorldLocation.Y + p.PieceHeight * CellSize > this.Height - 37 - CellSize)
@@ -248,17 +279,34 @@ namespace SimplePuzzleGame
                     // Donja ivica
                     if (p.WorldLocation.Y < pbGrid.Location.Y + pbGrid.Height && pPbBottomRight.Y > pbGrid.Location.Y + pbGrid.Height)
                         return false;
-
                 }
             }
-            // Proverava kolizije sa svim ostalim PuzzleDelovima
+
+            // Provera da li se bilo koji pictureBox sece sa bilo kojim dugmetom
+            foreach(PictureBox pb in p.pbList)
+            {
+                if (overlapsButtons(pb))
+                    return false;
+            }
+
             foreach (PuzzlePiece staticPuzzle in PuzzlePieceList)
             {
                 if (staticPuzzle == p)
                     continue;
 
-                // tako sto proveri za apsolutno svaki pictureBox na ekranu da li se sece sa bilo kojim pictureBoxom koji pripada tom delu
-                foreach(PictureBox staticPb in staticPuzzle.pbList)
+                {
+                    Point pTopLeft = p.WorldLocation;
+                    Point staticPTopLeft = staticPuzzle.WorldLocation;
+                    Point pBottomRight = new Point(p.WorldLocation.X + (p.PieceWidth+1) * CellSize, p.WorldLocation.Y + (p.PieceHeight+1) * CellSize);
+                    Point staticPBottomRight = new Point(staticPuzzle.WorldLocation.X + (staticPuzzle.PieceWidth+1) * CellSize, staticPuzzle.WorldLocation.Y + (staticPuzzle.PieceHeight+1) * CellSize);
+                    // proveravamo da li se seku bounding boxovi dva puzzle dela
+                    if (!Functions.rectangleOverlapCheck(pTopLeft, pBottomRight, staticPTopLeft, staticPBottomRight))
+                    {
+                        continue;
+                    }
+                }
+                // ako se seku bounding boxovi, onda proveri da li se seku pictureBoxovi
+                foreach (PictureBox staticPb in staticPuzzle.pbList)
                 {
                     foreach(PictureBox pPb in p.pbList)
                     {
@@ -271,8 +319,6 @@ namespace SimplePuzzleGame
                             return false;
                     }
                 }
-                // Ideja za poboljsanje efikasnosti, da se prvo proveri da li se seku "bounding box"-ovi pa samo ako da, onda
-                // proveravati pojedinacne pictureBoxove za samo te objekte sa kojima postoji presek
             }
 
             return true;
@@ -294,7 +340,7 @@ namespace SimplePuzzleGame
                     RelativeLocation = new Point(e.X + _sender.Location.X - DraggingPiece.WorldLocation.X, e.Y + _sender.Location.Y - DraggingPiece.WorldLocation.Y);
                     DraggingPiece.zOrderUp();
                     DraggingPiece.setTexture(true);
-
+                    setButtonsEnabled(false);
                     if (DraggingPiece.IsSet)    // Ako je bio postavljen u grid, onda moramo da modifikujemo GridState matricu
                     {
                         updateMatrix(DraggingPiece, locationToGridPoint(DraggingPiece.WorldLocation), false);
@@ -308,6 +354,7 @@ namespace SimplePuzzleGame
                     if (canBePlaced(DraggingPiece)) // Da li uopste mozemo da postavimo
                     {
                         DraggingPiece.setTexture(false);
+                        setButtonsEnabled(true);
                         if (matrixCheck(DraggingPiece, locationToGridPoint(DraggingPiece.WorldLocation)) == true) // Za svaki slucaj proveravamo da li je negde u matrici vec zauzeta ta lokacija
                         {
                             DraggingPiece.IsSet = true; //Ako nije, setujemo taj PuzzlePiece
@@ -319,13 +366,26 @@ namespace SimplePuzzleGame
                                 MessageBox.Show("You solved the puzzle, congratulations");
                             }
                         }
+
+                        if (btnReset.Enabled == false || btnDemo.Enabled == false)
+                        {
+                            btnReset.Enabled = true;
+                            btnDemo.Enabled = true;
+                        }
                         DraggingPiece = null;
                     }
                 }
             }
-            catch (Exception) { DraggingPiece = null; }
-            // Osiguravanje da su gornji dugmici(New Game, Reset, Demo, FullScreen i Close uvek vidljivi)
-            bringButtonsToFront();
+            catch (Exception)
+            {
+
+                if (btnReset.Enabled == false || btnDemo.Enabled == false)
+                {
+                    btnReset.Enabled = true;
+                    btnDemo.Enabled = true;
+                }
+                DraggingPiece = null;
+            }
         }
 
         //sprecava prekrivanje New Game, Reset... dugmica
@@ -337,8 +397,19 @@ namespace SimplePuzzleGame
             btnClose.BringToFront();
             lblTimer.BringToFront();
             gbDebug.BringToFront();
+            btnToggleFullScreen.BringToFront();
         }
 
+        private void setButtonsEnabled(bool enabled)
+        {
+            btnNewGame.Enabled = enabled;
+            btnReset.Enabled = enabled;
+            btnDemo.Enabled = enabled;
+            btnClose.Enabled = enabled;
+            lblTimer.Enabled = enabled;
+            gbDebug.Enabled = enabled;
+            btnToggleFullScreen.Enabled = enabled;
+        }
         public bool isFinished()
         {
             foreach(bool b in GridStateMatrix)
@@ -402,7 +473,7 @@ namespace SimplePuzzleGame
         private void btnDemo_Click(object sender, EventArgs e)
         {
             initGame(5, 8);
-
+            btnDemo.Enabled = false;
             char[,] pieceMatrix = new char[11, 17];
             String S = "******************0*0*0|0*0|0|0|0**-*-*-|-*****-|-**0*0*0|0*0|0*0|0**-*****-**********0|0|0*0*0*0|0|0********-*-*-******0|0*0*0*0*0*0|0**-***-***-********0*0|0|0*0|0*0|0******************";
             for (int i = 0; i < 11; i++)
@@ -417,8 +488,8 @@ namespace SimplePuzzleGame
             bringButtonsToFront();
             Functions.SetDoubleBuffered(pbGrid);
             drawGrid(pbGrid);
-            btnReset.Enabled = true;
             btnReset_Click(sender, e);
+            btnReset.Enabled = true;
         }
 
         public MouseEventArgs MEA;  // Cuva info o poziciji misa
@@ -488,7 +559,8 @@ namespace SimplePuzzleGame
         {
             lblTimer.Text = Convert.ToString(Convert.ToInt32(lblTimer.Text) + 1);
             MouseHasMoved(new Object(), MEA);
-
+            
+                
             lblGridSize.Text = "GridSize: " + pbGrid.Size.ToString();
             lblGridLocation.Text = "GridLoc: " + pbGrid.Location.ToString();
             lblCellSize.Text = "CellSize: " + CellSize.ToString();
